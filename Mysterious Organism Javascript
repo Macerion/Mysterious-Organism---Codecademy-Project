@@ -1,0 +1,45 @@
+// Returns a random DNA base
+const returnRandBase = () => {
+  const dnaBases = ['A', 'T', 'C', 'G']
+  return dnaBases[Math.floor(Math.random() * 4)] 
+};
+
+// Returns a random single stand of DNA containing 15 bases
+const mockUpStrand = () => {
+  const newStrand = []
+  for (let i = 0; i < 15; i++) {
+    newStrand.push(returnRandBase())
+  };
+  return newStrand
+};
+let currentDna = mockUpStrand()
+const pAequorFactory = (specimenNum, dna) => {
+  return {
+    specimenNum,
+    dna,
+    mutate() {
+      const randIndex = Math.floor(Math.random() * this.dna.length);
+      let newBase = returnRandBase();
+        while (this.dna[randIndex] === newBase){
+          newBase = returnRandBase();
+        };
+      this.dna[randIndex] = newBase;
+      return this.dna;
+    },
+    compareDNA(otherObj) {
+      let sample1 = currentDna;
+      let sample2 = this.dna;
+      let inCommon = 0;
+        for (let j = 0; j < sample1.length; j++){
+          for (let k = 0; k < sample2.length; k++){
+            if (j === k && sample1[j] === sample2[k]){
+              inCommon += 1
+            } else inCommon
+          }; 
+        };
+        console.log(`specimen #1 and specimen #2 have ${Math.floor(inCommon/15)*100}% DNA in common`)
+    },
+  };
+};
+
+//console.log(pAequorFactory(1,mockUpStrand()))

@@ -27,19 +27,39 @@ const pAequorFactory = (specimenNum, dna) => {
       return this.dna;
     },
     compareDNA(otherObj) {
-      let sample1 = currentDna;
-      let sample2 = this.dna;
-      let inCommon = 0;
-        for (let j = 0; j < sample1.length; j++){
-          for (let k = 0; k < sample2.length; k++){
-            if (j === k && sample1[j] === sample2[k]){
-              inCommon += 1
-            } else inCommon
-          }; 
-        };
-        console.log(`specimen #1 and specimen #2 have ${Math.floor(inCommon/15)*100}% DNA in common`)
+      const similarities = this.dna.reduce((acc, curr, idx, arr) => {
+        if (arr[idx] === otherObj.dna[idx]){
+          return acc + 1
+        } else {
+          return acc;
+        }
+      }, 0);
+      const percentOfDNAShared = (similarities / this.dna.length) * 100;
+      console.log(`${this.specimenNum} and ${this.otherObj.specimenNum} have ${percentOfDNAShared.toFixed(2)}% DNA in common`)
+    },
+    willLikelySurvive() {
+      const cOrGBases = this.dna.filter(element => element === 'C' || element === 'G')
+      if (cOrGBases.length / this.dna.length >= 0.6){
+        return true
+      } else {
+        return false
+      };
+    },
+    complementStrand(){
+      
     },
   };
+  const survivingSpecimen = [];
+  let idCounter = 1;
+    while (survivingSpecimen.length < 30){
+      let newOrg = pAequorFactory(idCounter, mockUpStrand());
+      if (newOrg.willLikelySurvive()){
+        surivingSpecimen.push(newOrg);
+      }
+      idCounter++
+    }
+    console.log(survivingSpecimen)
+
 };
 
-//console.log(pAequorFactory(1,mockUpStrand()))
+console.log(pAequorFactory(1,mockUpStrand()))
